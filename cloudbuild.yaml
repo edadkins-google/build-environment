@@ -1,0 +1,29 @@
+steps:
+- id: enable APIs
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    gcloud services enable container.googleapis.com \
+        cloudbuild.googleapis.com \
+        sourcerepo.googleapis.com \
+        containeranalysis.googleapis.com
+
+- id: create app and env repositories
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    gcloud source repos create cloudbuild-app
+    gcloud source repos create cloudbuild-env
+
+- id: 'clone '
+  name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    git clone https://github.com/edadkins-google/build-environment \
+    cloudbuild-app
